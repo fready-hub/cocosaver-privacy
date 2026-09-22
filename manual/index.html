@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="코코세이버 사용 설명서 — 영수증 넣는 법부터 환불받는 법까지 화면별로 정리했습니다.">
+<title>코코세이버 사용 설명서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700;800&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F5F2EA; --surface:#FFFDF7; --ink:#1C1B18; --soft:#6B675D; --faint:#9C978A;
+  --rule:#DCD6C6; --mustard:#E3A400; --mustard-wash:#FBF0CF; --green:#2E6E40; --green-wash:#E3EEE5;
+  --shadow:0 1px 0 rgba(28,27,24,.04), 0 10px 30px -18px rgba(28,27,24,.35);
+  --display:"Gothic A1","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#161512; --surface:#211F1B; --ink:#EEEAE0; --soft:#A7A194; --faint:#7C776C;
+    --rule:#36332C; --mustard:#F0B51E; --mustard-wash:#3A2F12; --green:#72B686; --green-wash:#1D2D22;
+    --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#161512; --surface:#211F1B; --ink:#EEEAE0; --soft:#A7A194; --faint:#7C776C;
+  --rule:#36332C; --mustard:#F0B51E; --mustard-wash:#3A2F12; --green:#72B686; --green-wash:#1D2D22;
+  --shadow:0 1px 0 rgba(0,0,0,.3), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font:400 16px/1.75 var(--body);-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding-inline:20px;padding-block:40px 80px}
+a{color:inherit}
+a:focus-visible{outline:2px solid var(--mustard);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+.mono{font-family:var(--mono)}
+
+/* 머리말 */
+.head{display:grid;grid-template-columns:1fr auto;gap:12px 32px;align-items:end;padding-bottom:28px;border-bottom:1px solid var(--rule)}
+.eyebrow{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.head h1{font-size:clamp(34px,6vw,54px);font-weight:800;line-height:1.1;margin-top:12px}
+.head h1 em{font-style:normal;color:var(--mustard)}
+.lede{grid-column:1/-1;max-width:62ch;color:var(--soft);font-size:17px}
+.ver{font:500 13px/1.4 var(--mono);color:var(--soft);text-align:right}
+.ver b{display:block;font-size:22px;color:var(--ink);font-weight:500}
+
+/* 영수증 모양 목차 */
+.intro{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,380px);gap:40px;margin-top:36px;align-items:start}
+.how{display:grid;gap:18px}
+.how h2{font-size:22px}
+.how ol{margin:0;padding:0;list-style:none;counter-reset:s;display:grid;gap:14px}
+.how li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.how li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--mustard);color:#1C1B18;font:700 15px/1 var(--display)}
+.how li b{display:block;font-weight:700}
+.how li span{color:var(--soft);font-size:15px}
+.receipt{background:var(--surface);border:1px solid var(--rule);box-shadow:var(--shadow);padding:22px 22px 16px;font:400 13.5px/1.7 var(--mono);position:relative}
+.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-9px;height:10px;background:linear-gradient(-45deg,transparent 6px,var(--surface) 0) 0 0/12px 10px repeat-x,linear-gradient(45deg,transparent 6px,var(--surface) 0) 0 0/12px 10px repeat-x}
+.receipt .t{text-align:center;font-weight:500;letter-spacing:.2em;margin-bottom:4px}
+.receipt .s{text-align:center;color:var(--soft);font-size:12px;margin-bottom:14px}
+.receipt .grp{color:var(--soft);font-size:12px;margin-top:10px;letter-spacing:.06em}
+.receipt a{display:grid;grid-template-columns:4.2em 1fr;gap:4px;text-decoration:none;padding:1px 0}
+.receipt a span:last-child{display:flex;gap:6px;min-width:0}
+.receipt a span:last-child::after{content:"";flex:1;border-bottom:1px dotted var(--faint);transform:translateY(-.45em)}
+.receipt a:hover span:last-child{color:var(--green)}
+.receipt .sum{border-top:1px dashed var(--faint);margin-top:12px;padding-top:8px;display:flex;justify-content:space-between;font-weight:500}
+
+/* 장 */
+.chapter{margin-top:72px}
+.chapter>header{display:flex;gap:16px;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:10px}
+.chapter>header .n{font:500 14px/1 var(--mono);color:var(--soft)}
+.chapter>header h2{font-size:clamp(24px,3.4vw,32px);font-weight:800}
+.chapter>header p{margin-left:auto;color:var(--soft);font-size:14px;text-align:right}
+
+/* 화면 하나 */
+.screen{display:grid;grid-template-columns:minmax(0,270px) minmax(0,1fr);gap:36px;padding-block:40px;border-bottom:1px solid var(--rule);scroll-margin-top:16px}
+.screen:last-child{border-bottom:0}
+.solo{grid-template-columns:minmax(0,1fr)}
+.shot{margin:0}
+.shot img,.strip img{display:block;width:100%;height:auto;border-radius:18px;border:1px solid var(--rule);background:var(--surface);box-shadow:var(--shadow)}
+.shot figcaption,.strip figcaption{font:400 12px/1.5 var(--mono);color:var(--soft);margin-top:10px;text-align:center}
+.body{max-width:64ch;display:grid;gap:14px;align-content:start}
+.code{font:500 12px/1 var(--mono);color:var(--soft);letter-spacing:.08em}
+.body h3{font-size:22px;font-weight:800}
+.body .where{font-size:14px;color:var(--soft)}
+.body .where b{color:var(--ink);font-weight:500}
+.body ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.body li{padding-left:18px;position:relative}
+.body li::before{content:"";position:absolute;left:2px;top:.72em;width:6px;height:6px;border-radius:1px;background:var(--mustard)}
+.body li b{font-weight:700}
+.tip{background:var(--green-wash);color:var(--ink);padding:12px 16px;border-radius:10px;font-size:15px}
+.tip b{color:var(--green)}
+.note{border-left:3px solid var(--mustard);padding:2px 0 2px 14px;color:var(--soft);font-size:15px}
+.price{font-family:var(--mono);font-size:14.5px;white-space:nowrap}
+.price s{color:var(--faint)}
+.price i{font-style:normal;color:var(--green)}
+
+/* 여러 장이 이어지는 흐름 */
+.screen.flow{grid-template-columns:minmax(0,1fr)}
+.strip{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:18px;margin:0;padding:0;list-style:none}
+.strip li{margin:0}
+.strip .step{font:500 12px/1 var(--mono);color:var(--soft);margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.strip .step b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--ground);font:700 12px/1 var(--display)}
+.flow .body{max-width:none;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 36px}
+.flow .body>h3,.flow .body>.code,.flow .body>.where{grid-column:1/-1}
+
+.foot{margin-top:72px;padding-top:24px;border-top:1px solid var(--rule);color:var(--soft);font-size:14px;display:grid;gap:6px}
+
+@media (max-width:760px){
+  .head{grid-template-columns:1fr}
+  .ver{text-align:left}
+  .intro{grid-template-columns:1fr}
+  .screen{grid-template-columns:1fr;gap:22px}
+  .shot{max-width:280px;margin-inline:auto;width:100%}
+  .strip{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chapter>header{flex-wrap:wrap}
+  .chapter>header p{margin-left:0;text-align:left;width:100%}
+}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+
+<header class="head">
+  <div>
+    <div class="eyebrow">사용 설명서</div>
+    <h1>코코세이버,<br>이렇게 <em>쓰세요</em></h1>
+  </div>
+  <div class="ver">앱 버전<b>1.0.40</b>2026년 9월 기준</div>
+  <p class="lede">코스트코는 산 물건의 가격이 나중에 내려가면 차액을 돌려줍니다. 코코세이버는 내 영수증을 모아 두고, 산 물건이 싸지는 순간 알려 드려요. 화면마다 무엇을 할 수 있는지 차례대로 정리했습니다.</p>
+</header>
+
+<section class="intro" aria-label="시작하기 전에">
+  <div class="how">
+    <h2>3단계면 충분해요</h2>
+    <ol>
+      <li><div><b>영수증을 넣어요</b><span>코스트코 계정으로 6개월치를 한 번에 가져오거나, 영수증 사진을 올려요.</span></div></li>
+      <li><div><b>알림을 기다려요</b><span>내가 산 상품이 더 싸지면 차액과 함께 푸시 알림이 와요.</span></div></li>
+      <li><div><b>매장에서 돌려받아요</b><span>결제한 카드를 들고 고객 서비스 카운터에서 "가격 조정"을 요청하면 끝이에요.</span></div></li>
+    </ol>
+    <p class="note">화면 사진은 실제 앱을 LG G8에서 찍은 것입니다. 이름·이메일·카드 번호와 광고는 가렸어요.</p>
+  </div>
+
+  <nav class="receipt" aria-label="목차">
+    <div class="t">COCOSAVER</div>
+    <div class="s">화면 안내 · 앱 1.0.40</div>
+    <div class="grp">시작하기</div>
+    <a href="#s-login"><span>100101</span><span>로그인</span></a>
+    <a href="#s-onboarding"><span>100102</span><span>첫 안내</span></a>
+    <div class="grp">영수증 넣기</div>
+    <a href="#s-add"><span>200201</span><span>영수증 추가</span></a>
+    <a href="#s-import"><span>200202</span><span>코스트코 계정에서 가져오기</span></a>
+    <a href="#s-photo"><span>200203</span><span>사진으로 등록</span></a>
+    <a href="#s-review"><span>200204</span><span>인식 결과 확인·수정</span></a>
+    <div class="grp">영수증 보기</div>
+    <a href="#s-home"><span>300301</span><span>홈</span></a>
+    <a href="#s-list"><span>300302</span><span>구매 내역·검색</span></a>
+    <a href="#s-detail"><span>300303</span><span>영수증 상세</span></a>
+    <a href="#s-product"><span>300304</span><span>가격 정보</span></a>
+    <div class="grp">할인과 환불</div>
+    <a href="#s-discount"><span>400401</span><span>할인 정보</span></a>
+    <a href="#s-guide"><span>400402</span><span>환불 방법 안내</span></a>
+    <a href="#s-stats"><span>400403</span><span>구매 분석</span></a>
+    <div class="grp">설정과 도움</div>
+    <a href="#s-settings"><span>500501</span><span>설정</span></a>
+    <a href="#s-muted"><span>500502</span><span>알림 끈 상품</span></a>
+    <a href="#s-support"><span>500503</span><span>고객센터</span></a>
+    <a href="#s-notice"><span>500504</span><span>공지와 업데이트</span></a>
+    <div class="sum"><span>총 화면</span><span>17</span></div>
+  </nav>
+</section>
+
+<!-- 1. 시작하기 -->
+<section class="chapter" aria-labelledby="c1">
+  <header><span class="n">1</span><h2 id="c1">시작하기</h2><p>처음 한 번만 거치는 화면</p></header>
+
+  <article class="screen" id="s-login">
+    <figure class="shot"><img width="536" height="1056" src="img/01_login.jpg" alt="로그인 화면. 코코세이버 로고와 Google로 계속하기 버튼" loading="lazy"><figcaption>로그인</figcaption></figure>
+    <div class="body">
+      <div class="code">100101</div>
+      <h3>로그인</h3>
+      <p class="where">앱을 처음 열면 나와요.</p>
+      <ul>
+        <li><b>Google로 계속하기</b>를 누르고 계정을 고르면 끝이에요. 따로 회원가입은 없어요.</li>
+        <li>코코세이버가 받는 것은 이름·이메일·프로필 사진뿐이에요. 코스트코 회원 정보는 받지 않아요.</li>
+        <li>폰을 바꿔도 같은 Google 계정으로 로그인하면 영수증이 그대로 있어요.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="screen flow" id="s-onboarding">
+    <div class="body">
+      <div class="code">100102</div>
+      <h3>첫 안내</h3>
+      <p class="where">로그인 직후 세 장이 나와요. 나중에 <b>설정 › 사용법 다시 보기</b>로 다시 볼 수 있어요.</p>
+      <ul>
+        <li><b>1장</b>은 코스트코 계정으로 6개월치 영수증을 가져오는 방법이에요. 비밀번호는 앱이 보지 않아요.</li>
+        <li><b>2장</b>은 오늘 산 영수증을 사진으로 올리는 방법이에요. 가져오기는 구매 다음 날부터 보이기 때문이에요.</li>
+      </ul>
+      <ul>
+        <li><b>3장</b>은 앱이 하는 일이에요. 산 상품이 더 싸지면 알려 드려요.</li>
+        <li>마지막 장의 <b>지금 가져오기</b>를 누르면 바로 코스트코 가져오기로 넘어가요. 오른쪽 위 <b>닫기</b>로 건너뛸 수도 있어요.</li>
+      </ul>
+    </div>
+    <ol class="strip" style="--cols:3">
+      <li><div class="step"><b>1</b>6개월치를 한 번에</div><img width="536" height="1056" src="img/02_onboarding_1.jpg" alt="첫 안내 1장. 코스트코 계정으로 6개월치를 한 번에" loading="lazy"></li>
+      <li><div class="step"><b>2</b>오늘 산 건 사진으로</div><img width="536" height="1056" src="img/02_onboarding_2.jpg" alt="첫 안내 2장. 오늘 산 영수증은 사진으로" loading="lazy"></li>
+      <li><div class="step"><b>3</b>차액 돌려받기</div><img width="536" height="1056" src="img/02_onboarding_3.jpg" alt="첫 안내 3장. 더 싸진 순간, 차액을 돌려받으세요. 지금 가져오기 버튼" loading="lazy"></li>
+    </ol>
+  </article>
+</section>
+
+<!-- 2. 영수증 넣기 -->
+<section class="chapter" aria-labelledby="c2">
+  <header><span class="n">2</span><h2 id="c2">영수증 넣기</h2><p>영수증이 있어야 할인을 찾아 드려요</p></header>
+
+  <article class="screen" id="s-add">
+    <figure class="shot"><img width="536" height="1056" src="img/04_add_receipt.jpg" alt="영수증 추가 화면. 네 가지 방법이 카드로 나열됨" loading="lazy"><figcaption>영수증 추가</figcaption></figure>
+    <div class="body">
+      <div class="code">200201</div>
+      <h3>영수증 추가</h3>
+      <p class="where">화면 아래 가운데 노란 <b>+</b> 버튼을 누르면 나와요.</p>
+      <ul>
+        <li><b>코스트코 계정에서 가져오기</b> — 최근 6개월 매장 영수증을 사진 없이 한 번에 넣어요. 처음이라면 이걸 먼저 하세요.</li>
+        <li><b>갤러리에서 선택</b> — 영수증 한 장을 찍은 사진을 골라요. 길어서 여러 장으로 나눠 찍었다면 전부 고르세요. 같은 영수증인지 앱이 확인하고 합쳐요.</li>
+        <li><b>여러 영수증 한 번에</b> — 서로 다른 영수증 사진을 한꺼번에 골라요. 거래번호별로 나눠 각각 저장해요.</li>
+        <li><b>카메라로 촬영</b> — 지금 바로 찍어요. 긴 영수증은 위에서 아래로 나눠 찍으면 돼요.</li>
+      </ul>
+      <p class="tip"><b>어느 걸 쓸까요?</b> 지난 영수증은 가져오기, 오늘 산 영수증은 사진이에요. 코스트코 사이트에는 구매 다음 날부터 영수증이 올라와요.</p>
+    </div>
+  </article>
+
+  <article class="screen flow" id="s-import">
+    <div class="body">
+      <div class="code">200202</div>
+      <h3>코스트코 계정에서 가져오기</h3>
+      <p class="where">영수증 추가 › <b>코스트코 계정에서 가져오기</b>. 홈에 영수증이 하나도 없을 때도 버튼이 보여요.</p>
+      <ul>
+        <li><b>안내 화면</b>에서 무엇을 가져오는지 확인하고 <b>코스트코 로그인하러 가기</b>를 눌러요.</li>
+        <li><b>코스트코 로그인</b>은 코스트코 사이트 화면에 직접 해요. 2차 인증 메일이 오면 코드도 여기에 넣어요. 코코세이버는 아이디·비밀번호를 보거나 저장하지 않아요.</li>
+        <li>로그인하면 <b>매장 영수증 페이지</b>로 넘어가요. 아래 <b>최근 6개월 영수증 가져오기</b>를 눌러요. 안 넘어가면 마이페이지 › 매장 영수증으로 가 주세요.</li>
+      </ul>
+      <ul>
+        <li><b>목록을 찾는 동안</b>은 화면을 닫지 마세요. 코스트코 사이트에 부담을 주지 않도록 천천히 읽어요.</li>
+        <li><b>미리보기</b>에서 새 영수증만 골라져 있어요. 이미 저장된 영수증은 건너뛰고, 반품 영수증은 가져오지 않아요.</li>
+        <li><b>저장</b>하면 끝이에요. 앱 안에 남은 코스트코 로그인 정보는 자동으로 지워요.</li>
+      </ul>
+      <p class="note">가져오는 것은 날짜·지점·상품·금액과 결제 카드 종류·끝 4자리뿐이에요. 회원번호와 카드 번호 전체는 가져오지 않아요. 코스트코의 공식 기능이 아니라서 사이트가 바뀌면 잠시 동작하지 않을 수 있어요.</p>
+    </div>
+    <ol class="strip" style="--cols:6">
+      <li><div class="step"><b>1</b>안내</div><img width="536" height="1056" src="img/07_costco_import.jpg" alt="가져오기 안내 화면. 무엇을 가져오고 무엇을 가져오지 않는지 설명" loading="lazy"></li>
+      <li><div class="step"><b>2</b>로그인</div><img width="536" height="1056" src="img/07b_costco_login.jpg" alt="앱 안에서 열린 코스트코 로그인 화면" loading="lazy"></li>
+      <li><div class="step"><b>3</b>영수증 페이지</div><img width="536" height="1056" src="img/07c_costco_receipts.jpg" alt="코스트코 나의 매장 영수증 페이지와 아래 가져오기 버튼" loading="lazy"></li>
+      <li><div class="step"><b>4</b>찾는 중</div><img width="536" height="1056" src="img/07d_import_progress.jpg" alt="영수증 목록을 찾는 중 화면" loading="lazy"></li>
+      <li><div class="step"><b>5</b>미리보기</div><img width="536" height="1056" src="img/07e_import_preview.jpg" alt="미리보기. 영수증 5건을 찾았고 이미 저장된 3건은 건너뜀" loading="lazy"></li>
+      <li><div class="step"><b>6</b>완료</div><img width="536" height="1056" src="img/07f_import_done.jpg" alt="영수증 2건을 저장했어요. 로그인 정보는 지웠다는 안내" loading="lazy"></li>
+    </ol>
+  </article>
+
+  <article class="screen" id="s-photo">
+    <figure class="shot"><img width="536" height="1056" src="img/04b_gallery_pick.jpg" alt="사진 선택 화면. 나눠 찍은 영수증 사진 3장을 고른 상태" loading="lazy"><figcaption>사진 고르기</figcaption></figure>
+    <div class="body">
+      <div class="code">200203</div>
+      <h3>사진으로 등록</h3>
+      <p class="where">영수증 추가 › <b>갤러리에서 선택</b> 또는 <b>카메라로 촬영</b>.</p>
+      <ul>
+        <li>긴 영수증은 나눠 찍은 사진을 <b>전부</b> 고르세요. 사진 순서는 상관없어요. 겹쳐 찍힌 부분은 한 번만 셉니다.</li>
+        <li>글자 인식은 <b>폰 안에서</b> 해요. 사진이 인식을 위해 밖으로 나가지 않아요.</li>
+        <li>종이 영수증뿐 아니라 코스트코 앱이나 웹의 영수증 화면을 캡처한 사진도 읽을 수 있어요.</li>
+      </ul>
+      <p class="tip"><b>잘 찍는 법</b> — 영수증을 평평하게 펴고, 그림자 없이 밝은 곳에서, 글자가 화면 가득 차게 찍어요. 합계와 쿠폰 줄이 잘리지 않았는지 확인하세요.</p>
+    </div>
+  </article>
+
+  <article class="screen flow" id="s-review">
+    <div class="body">
+      <div class="code">200204</div>
+      <h3>인식 결과 확인·수정</h3>
+      <p class="where">사진을 고르면 자동으로 이 화면이 열려요. 저장하기 전에 한 번 훑어보세요.</p>
+      <ul>
+        <li>맨 위에 <b>거래번호와 매장</b>이 나와요. 사진을 여러 장 합쳤다면 "사진 N장을 한 영수증으로 합쳤어요"라고 알려 줘요.</li>
+        <li>쿠폰이 붙은 품목은 <span class="price"><s>15,490원</s> <i>-3,200원</i> <b>12,290원</b></span>처럼 보여요. 정가는 줄을 긋고, 쿠폰은 초록색, 실제로 낸 돈은 굵게 표시해요.</li>
+        <li>틀린 품목은 오른쪽 <b>연필</b>을 눌러 품목명·상품번호·수량·정가 합계·쿠폰 할인을 고쳐요.</li>
+      </ul>
+      <ul>
+        <li><b>저장하기</b>를 누르면 품목 수와 합계를 한 번 더 보여줘요. 합계가 영수증과 다르거나 빠진 품목이 있어 보이면 경고가 나오고 버튼이 <b>그래도 저장</b>으로 바뀌어요.</li>
+        <li>인식이 많이 틀렸다면 <b>인식 오류 제보</b>로 알려 주세요. 회원번호·승인번호는 지우고, 카드 번호는 끝 4자리만 남겨서 보내요.</li>
+        <li>같은 거래번호의 영수증이 이미 있으면 덮어쓸지 물어봐요.</li>
+      </ul>
+    </div>
+    <ol class="strip" style="--cols:4">
+      <li><div class="step"><b>1</b>결과 확인</div><img width="536" height="1056" src="img/05_ocr_review.jpg" alt="OCR 결과 확인. 거래번호, 매장, 사진 3장을 한 영수증으로 합쳤다는 안내와 품목 18개" loading="lazy"></li>
+      <li><div class="step"><b>2</b>쿠폰 품목</div><img width="536" height="1056" src="img/05b_ocr_review_items.jpg" alt="품목 목록. 쿠폰 품목은 정가 취소선, 쿠폰 금액, 실결제가로 표시" loading="lazy"></li>
+      <li><div class="step"><b>3</b>품목 수정</div><img width="536" height="1056" src="img/05c_item_edit.jpg" alt="품목 수정 창. 품목명, 상품번호, 수량, 정가 합계, 쿠폰 할인 입력칸" loading="lazy"></li>
+      <li><div class="step"><b>4</b>저장 확인</div><img width="536" height="1056" src="img/06_save_confirm.jpg" alt="이대로 저장할까요? 품목 수와 합계를 보여주는 확인 창" loading="lazy"></li>
+    </ol>
+  </article>
+</section>
+
+<!-- 3. 영수증 보기 -->
+<section class="chapter" aria-labelledby="c3">
+  <header><span class="n">3</span><h2 id="c3">영수증 보기</h2><p>환불 카운터에서 바로 꺼내 보여 주세요</p></header>
+
+  <article class="screen" id="s-home">
+    <figure class="shot"><img width="536" height="1056" src="img/03_home.jpg" alt="홈 화면. 위에 1개 품목 환불 가능 배너, 아래 최근 구매 내역 3건" loading="lazy"><figcaption>홈</figcaption></figure>
+    <div class="body">
+      <div class="code">300301</div>
+      <h3>홈</h3>
+      <p class="where">앱을 열면 가장 먼저 보이는 화면이에요. 아래 탭의 <b>홈</b>.</p>
+      <ul>
+        <li>맨 위 초록 배너는 <b>지금 환불받을 수 있는 품목 수와 최대 금액</b>이에요. 누르면 할인 정보로 가요. 없을 때는 "지금 할인 중인 구매 품목이 없어요"라고 나와요.</li>
+        <li>환불을 한 번이라도 받으면 <b>지금까지 N원 아꼈어요</b> 카드가 생겨요. 매장 쿠폰은 앱이 없어도 받는 할인이라 여기에 넣지 않아요.</li>
+        <li><b>최근 구매 내역</b>은 구매일이 최근인 영수증 3건이에요. <b>전체보기</b>로 전체 목록을 봐요.</li>
+        <li>오른쪽 위 <b>종</b> 모양은 할인 정보로 가는 바로가기예요.</li>
+      </ul>
+      <p class="note">공지가 있으면 배너 위에 공지 카드가 나와요. 매장 도착 알림을 켜 두면 코스트코 매장에 있을 때 확인할 품목 배너도 보여요.</p>
+    </div>
+  </article>
+
+  <article class="screen" id="s-list">
+    <figure class="shot"><img width="536" height="1056" src="img/08_receipt_list.jpg" alt="구매 내역 화면. 맨 위 검색창, 아래 월별로 묶인 영수증" loading="lazy"><figcaption>구매 내역</figcaption></figure>
+    <div class="body">
+      <div class="code">300302</div>
+      <h3>구매 내역·검색</h3>
+      <p class="where">아래 탭의 <b>내역</b>.</p>
+      <ul>
+        <li>영수증이 <b>구매한 달별로</b> 묶여 최근 것부터 보여요. 각 줄에 지점·날짜·품목 수·합계가 나와요.</li>
+        <li>맨 위 검색창에 <b>품목명이나 상품번호</b>를 넣으면 그 상품이 든 영수증만 남아요. 환불 카운터에서 "이거 언제 샀지?"를 바로 찾을 수 있어요.</li>
+        <li>영수증을 누르면 상세 화면으로 가요.</li>
+      </ul>
+      <figure class="shot" style="max-width:220px"><img width="536" height="1056" src="img/08b_search.jpg" alt="상품번호 519026 으로 검색해 8월 1일 영수증 한 건만 남은 화면" loading="lazy"><figcaption>상품번호로 검색</figcaption></figure>
+    </div>
+  </article>
+
+  <article class="screen" id="s-detail">
+    <figure class="shot"><img width="536" height="1056" src="img/09_receipt_detail.jpg" alt="영수증 상세. 지점, 날짜, 거래번호, 결제 카드와 품목 목록" loading="lazy"><figcaption>영수증 상세</figcaption></figure>
+    <div class="body">
+      <div class="code">300303</div>
+      <h3>영수증 상세</h3>
+      <p class="where">구매 내역이나 홈에서 영수증을 누르면 열려요.</p>
+      <ul>
+        <li>맨 위 카드에 <b>지점·구매일·거래번호·결제 카드</b>가 나와요. 결제 카드는 종류와 끝 4자리만 저장해요. 환불할 때 어떤 카드를 내야 하는지 알 수 있어요.</li>
+        <li>품목마다 <b>실제로 낸 돈</b>이 굵게 보여요. 쿠폰이 붙은 품목은 정가와 쿠폰 금액이 함께 나와요.</li>
+        <li>노란 <b>상품번호</b>를 누르면 그 상품의 지점별 가격을 볼 수 있어요.</li>
+        <li>품목 오른쪽 <b>⋮</b> 메뉴에서 <b>환불 완료로 표시</b>하거나 <b>이 상품 알림 끄기</b>를 할 수 있어요.</li>
+        <li>오른쪽 위 <b>휴지통</b>은 영수증 전체를 지워요.</li>
+      </ul>
+      <figure class="shot" style="max-width:220px"><img width="536" height="1056" src="img/09b_item_menu.jpg" alt="품목 메뉴. 환불 완료로 표시, 이 상품 알림 끄기" loading="lazy"><figcaption>품목 ⋮ 메뉴</figcaption></figure>
+    </div>
+  </article>
+
+  <article class="screen" id="s-product">
+    <figure class="shot"><img width="536" height="1056" src="img/10_product_detail.jpg" alt="가격 정보. 동물복지란30개의 하남점, 일산점 가격" loading="lazy"><figcaption>가격 정보</figcaption></figure>
+    <div class="body">
+      <div class="code">300304</div>
+      <h3>가격 정보</h3>
+      <p class="where">영수증 상세에서 <b>상품번호</b>를 누르면 열려요.</p>
+      <ul>
+        <li>같은 상품이 <b>지점마다 얼마였는지</b> 보여 줘요. 내가 산 지점에는 "내가 산 곳"이 붙어요.</li>
+        <li>가격 옆에 언제 본 가격인지 나와요. 오래된 기록은 "지금은 다를 수 있어요"라고 알려 줘요.</li>
+        <li>가격은 회원들이 올린 영수증에서 모아요. 누가 샀는지는 담지 않고 "어느 지점에서 얼마였는지"만 모아요.</li>
+      </ul>
+      <p class="note">기록이 아직 없는 상품은 "영수증이 쌓이면 지점별 가격을 보여드릴게요"라고 나와요.</p>
+    </div>
+  </article>
+</section>
+
+<!-- 4. 할인과 환불 -->
+<section class="chapter" aria-labelledby="c4">
+  <header><span class="n">4</span><h2 id="c4">할인과 환불</h2><p>싸진 걸 알았다면, 돌려받을 차례</p></header>
+
+  <article class="screen" id="s-discount">
+    <figure class="shot"><img width="536" height="1056" src="img/11_discounts.jpg" alt="할인 정보. 환불 시 총 절약 가능 금액 2,000원과 지프 크루넥 티셔츠 카드" loading="lazy"><figcaption>할인 정보</figcaption></figure>
+    <div class="body">
+      <div class="code">400401</div>
+      <h3>할인 정보</h3>
+      <p class="where">아래 탭의 <b>할인</b>. 할인 알림을 누르면 여기로 와요.</p>
+      <ul>
+        <li>맨 위는 지금 환불하면 받을 수 있는 <b>금액의 합</b>이에요.</li>
+        <li>카드마다 <b>내 구매가 → 현재 할인가</b>와 <b>환불 차액</b>이 나와요. 예를 들어 <span class="price">22,990원 → 20,990원</span>이면 2,000원을 돌려받을 수 있어요.</li>
+        <li><b>영수증 보기</b>는 그 상품을 산 영수증을 열어요. 카운터에서 보여 주면 돼요.</li>
+        <li><b>환불 방법</b>은 매장에서 어떻게 하는지 단계별로 알려 줘요.</li>
+        <li>돌려받았다면 <b>환불했어요</b>를 눌러요. 목록에서 빠지고, 받은 금액이 구매 분석의 "아낀 돈"에 더해져요.</li>
+      </ul>
+      <p class="tip"><b>알림은 언제 오나요?</b> 내가 산 상품이 온라인몰 할인이나 다른 회원의 영수증에서 더 싼 가격으로 확인되면 차액과 함께 푸시 알림이 와요. 설정의 할인 감지 알림을 끄면 오지 않아요.</p>
+    </div>
+  </article>
+
+  <article class="screen flow" id="s-guide">
+    <div class="body">
+      <div class="code">400402</div>
+      <h3>환불 방법 안내</h3>
+      <p class="where">할인 정보 카드의 <b>환불 방법</b>을 누르면 열려요.</p>
+      <ul>
+        <li><b>영수증과 결제 카드 챙기기</b> — 그때 결제한 카드를 가져가세요. 취소와 재결제가 그 카드로 이뤄져요. 영수증 상세의 "결제 카드"에서 확인할 수 있어요.</li>
+        <li><b>고객 서비스 카운터 방문</b> — 매장 안 환불 카운터로 가요. 회원카드로 구매 이력을 조회할 수 있어 영수증이 없어도 되는 경우가 많아요.</li>
+      </ul>
+      <ul>
+        <li><b>가격이 내려간 것을 알리기</b> — 상품과 현재 가격을 말하고 차액 환불을 요청해요.</li>
+        <li><b>처리 방식은 매장이 정해요</b> — 차액만 돌려주기도 하고, 결제를 취소한 뒤 할인가로 다시 결제하기도 해요. 쿠폰이 붙은 상품은 쿠폰을 뺀 실제 차액만 돌려받아요.</li>
+      </ul>
+      <p class="note">이 안내는 참고용이에요. 환불 여부와 방식은 매장 판단에 따릅니다. 대형 가전(TV·컴퓨터·휴대폰·냉장고 등)은 구매 후 90일 안에만 반품돼요.</p>
+    </div>
+    <ol class="strip" style="--cols:2">
+      <li><div class="step"><b>1</b>챙길 것·방문·요청</div><img width="536" height="1056" src="img/12_refund_guide.jpg" alt="환불 방법 안내 1부. 영수증과 결제 카드, 카운터 방문, 가격 인하 알리기" loading="lazy"></li>
+      <li><div class="step"><b>2</b>알아두세요</div><img width="536" height="1056" src="img/12b_refund_guide_more.jpg" alt="환불 방법 안내 2부. 처리 방식과 알아두세요" loading="lazy"></li>
+    </ol>
+  </article>
+
+  <article class="screen" id="s-stats">
+    <figure class="shot"><img width="536" height="1056" src="img/13_stats.jpg" alt="구매 분석. 코코세이버로 아낀 돈, 총 지출, 환불받은 차액, 월별 지출" loading="lazy"><figcaption>구매 분석</figcaption></figure>
+    <div class="body">
+      <div class="code">400403</div>
+      <h3>구매 분석</h3>
+      <p class="where">설정 › <b>절약 리포트</b>, 또는 홈의 "아꼈어요" 카드.</p>
+      <ul>
+        <li><b>코코세이버로 아낀 돈</b>은 "환불했어요"로 표시한 가격 조정 차액의 합이에요. 매장 쿠폰 할인은 넣지 않아요.</li>
+        <li><b>총 지출</b>과 <b>구매 건수·품목 수</b>로 코스트코에 얼마나 썼는지 봐요.</li>
+        <li><b>환불받은 차액</b>은 금액과 건수를 함께 보여 줘요.</li>
+        <li>아직 받지 않은 환불이 있으면 <b>지금 환불하면 N원 더 받을 수 있어요</b>가 나와요.</li>
+        <li><b>월별 지출</b> 막대로 달마다 쓴 돈을 비교해요.</li>
+      </ul>
+      <p class="note">아낀 돈이 생기면 금액과 기간만 담은 카드로 공유할 수 있어요. 지점·품목·거래번호는 넣지 않아요.</p>
+    </div>
+  </article>
+</section>
+
+<!-- 5. 설정과 도움 -->
+<section class="chapter" aria-labelledby="c5">
+  <header><span class="n">5</span><h2 id="c5">설정과 도움</h2><p>알림을 고르고, 궁금한 걸 물어보세요</p></header>
+
+  <article class="screen" id="s-settings">
+    <figure class="shot"><img width="536" height="1056" src="img/14_settings.jpg" alt="설정 화면 위쪽. 계정, 구매 분석, 고객센터, 사용법 다시 보기, 알림" loading="lazy"><figcaption>설정</figcaption></figure>
+    <div class="body">
+      <div class="code">500501</div>
+      <h3>설정</h3>
+      <p class="where">아래 탭의 <b>설정</b>.</p>
+      <ul>
+        <li><b>계정</b> — 로그인한 Google 계정과 로그아웃.</li>
+        <li><b>절약 리포트</b> · <b>고객센터</b> · <b>사용법 다시 보기</b> — 각각 구매 분석, 문의, 첫 안내로 가요.</li>
+        <li><b>할인 감지 알림</b> — 끄면 가격이 내려가도 알림을 보내지 않아요.</li>
+        <li><b>알림 끈 상품</b> — 상품별로 끈 알림을 모아 보고 다시 켤 수 있어요.</li>
+        <li><b>매장 도착 알림</b> — 켜면 코스트코 매장 근처에 있을 때 확인할 품목을 알려 줘요. 위치 권한이 필요해요.</li>
+        <li><b>앱 정보</b>에서 버전을 확인하고, 맨 아래 <b>계정 삭제</b>로 영수증과 계정을 모두 지울 수 있어요. 되돌릴 수 없어서 두 번 확인해요.</li>
+      </ul>
+      <figure class="shot" style="max-width:220px"><img width="536" height="1056" src="img/14b_settings_more.jpg" alt="설정 화면 아래쪽. 알림 끈 상품, 매장 도착 알림, 버전, 계정 삭제" loading="lazy"><figcaption>설정 아래쪽</figcaption></figure>
+    </div>
+  </article>
+
+  <article class="screen" id="s-muted">
+    <figure class="shot"><img width="536" height="1056" src="img/15_muted.jpg" alt="알림 끈 상품 화면. 알림을 끈 상품이 없어요" loading="lazy"><figcaption>알림 끈 상품</figcaption></figure>
+    <div class="body">
+      <div class="code">500502</div>
+      <h3>알림 끈 상품</h3>
+      <p class="where">설정 › <b>알림 끈 상품</b>.</p>
+      <ul>
+        <li>영수증 상세의 <b>⋮ › 이 상품 알림 끄기</b>로 끈 상품이 여기 모여요. 자주 사는 소모품처럼 알림이 필요 없는 상품에 쓰세요.</li>
+        <li>상품 옆 <b>해제</b>를 누르면 다시 알림을 받아요.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="screen" id="s-support">
+    <figure class="shot"><img width="536" height="1056" src="img/16_support.jpg" alt="고객센터. 오류 신고, 개선 의견, 가격 정보 중 고르고 글을 쓰는 화면" loading="lazy"><figcaption>고객센터</figcaption></figure>
+    <div class="body">
+      <div class="code">500503</div>
+      <h3>고객센터</h3>
+      <p class="where">설정 › <b>고객센터</b>.</p>
+      <ul>
+        <li><b>오류 신고 · 개선 의견 · 가격 정보</b> 중 하나를 고르고 내용을 적어 보내요. 글만 받고 사진은 받지 않아요.</li>
+        <li>답변이 오면 <b>알림</b>으로 알려 드리고, 이 화면 아래 <b>내 문의</b>에서 볼 수 있어요.</li>
+        <li>화면 위에 앱 버전이 나와요. 오류를 알려 주실 때 함께 적어 주시면 빨리 찾을 수 있어요.</li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="screen solo" id="s-notice">
+    <div class="body">
+      <div class="code">500504</div>
+      <h3>공지와 업데이트</h3>
+      <p class="where">알릴 일이 있을 때만 나타나요.</p>
+      <ul>
+        <li>새 공지는 앱을 열 때 <b>팝업으로 한 번</b> 보여 드려요. 닫은 뒤에도 기간 동안 홈 위쪽에 카드로 남아요.</li>
+        <li>다 읽은 공지 카드는 오른쪽 <b>X</b>로 닫을 수 있어요.</li>
+        <li>꼭 필요한 업데이트가 있으면 <b>업데이트 창</b>이 떠요. Play 스토어에서 업데이트해야 계속 쓸 수 있어요.</li>
+      </ul>
+    </div>
+  </article>
+</section>
+
+<footer class="foot">
+  <p>코코세이버는 코스트코 코리아와 제휴 관계가 없는 독립 앱입니다. 'COSTCO'는 해당 회사의 상표이며, 환불 가능 여부와 조건은 매장 정책을 따릅니다.</p>
+  <p><a href="https://fready-hub.github.io/cocosaver-privacy/">개인정보 처리방침</a> · 문의는 앱의 설정 › 고객센터로 보내 주세요.</p>
+  <p>화면은 앱 1.0.40 기준입니다. 이름·이메일·카드 번호, 광고, 코스트코 사이트 로고는 가렸어요.</p>
+</footer>
+
+</div>
+
+</body>
+</html>
