@@ -2,69 +2,279 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>코코세이버 — 코스트코 환불 알림</title>
-<meta name="description" content="코스트코에서 산 물건이 싸지면 알려드립니다. 영수증을 넣어두면 가격 조정 차액 환불을 챙길 수 있어요.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>코코세이버 — 코스트코 가격조정 차액 환불 알림</title>
+<meta name="description" content="코스트코에서 산 물건이 싸지면 알려 드려요. 영수증을 넣어 두면 가격이 내려가는 순간 푸시 알림이 오고, 매장 고객 서비스 카운터에서 차액을 돌려받으면 끝.">
+<meta name="theme-color" content="#f7f4ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a1a18" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://cocosaver.rapa.world/">
+<link rel="icon" href="img/icon.png">
+<link rel="apple-touch-icon" href="img/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="코코세이버">
+<meta property="og:title" content="코코세이버 — 산 물건이 싸지면 알려드려요">
+<meta property="og:description" content="코스트코 영수증을 넣어 두면 가격이 내려갈 때 차액을 알려 드려요.">
+<meta property="og:url" content="https://cocosaver.rapa.world/">
+<meta property="og:image" content="https://cocosaver.rapa.world/download/og.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="500">
+<meta property="og:image:alt" content="산 물건이 싸지면 알려드려요 — 코코세이버">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "코코세이버",
+  "operatingSystem": "Android, iOS",
+  "applicationCategory": "ShoppingApplication",
+  "description": "코스트코에서 산 물건이 싸지면 알려 주는 가격조정 차액 환불 알림 앱",
+  "url": "https://cocosaver.rapa.world/",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+}
+</script>
 <style>
-  body { max-width: 720px; margin: 0 auto; padding: 24px 18px 64px;
-         font: 15px/1.75 -apple-system,"Segoe UI","Noto Sans KR",sans-serif;
-         color: #1a1a18; background: #f7f4ec; }
-  h1 { font-size: 24px; margin: 8px 0 20px; }
-  h2 { font-size: 18px; margin: 32px 0 10px; padding-top: 12px;
-        border-top: 1px solid #dcd6c6; }
-  h3 { font-size: 15.5px; margin: 20px 0 8px; }
-  .wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
-  th, td { border: 1px solid #dcd6c6; padding: 8px 10px; text-align: left;
-            vertical-align: top; }
-  th { background: #ede8dc; }
-  hr { border: 0; border-top: 1px solid #dcd6c6; margin: 28px 0; }
-  a { color: #3d6b4a; word-break: break-all; }
-  ul { padding-left: 22px; }
-  @media (prefers-color-scheme: dark) {
-    body { background: #1a1a18; color: #ede8dc; }
-    th { background: #2a2a26; }
-    th, td, h2, hr { border-color: #3d3a33; }
-    a { color: #8fbf9f; }
+  :root {
+    --bg: #f7f4ec; --card: #fffdf7; --ink: #1c1b18; --muted: #6e6a60;
+    --line: #dcd6c6; --green: #3d6b47; --green-soft: #e3ece4;
+    --yellow: #e8b10a; --yellow-soft: #faf0cf; --btn: #1c1b18; --btn-ink: #fff;
   }
-</style>
-<style>
-  .lead { font-size: 16px; margin: 0 0 28px; }
-  .links { list-style: none; padding: 0; margin: 0 0 32px; }
-  .links li { margin: 0 0 10px; }
-  .links a { display: block; padding: 14px 16px; border: 1px solid #dcd6c6;
-              border-radius: 10px; text-decoration: none; font-weight: 600; }
-  .links .sub { display: block; font-weight: 400; font-size: 13.5px; color: #6e6a60; margin-top: 3px; }
-  .stores a { margin-right: 14px; }
-  .foot { font-size: 13px; color: #6e6a60; margin-top: 36px; }
   @media (prefers-color-scheme: dark) {
-    .links a { border-color: #3d3a33; }
-    .links .sub, .foot { color: #9a948a; }
+    :root {
+      --bg: #1a1a18; --card: #24231f; --ink: #ede8dc; --muted: #9a948a;
+      --line: #3d3a33; --green: #8fbf9f; --green-soft: #26322a;
+      --yellow: #f0c23a; --yellow-soft: #3a3320; --btn: #ede8dc; --btn-ink: #1a1a18;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.7 "Pretendard", -apple-system, "Apple SD Gothic Neo", "Segoe UI",
+          "Noto Sans KR", "Malgun Gothic", sans-serif;
+    word-break: keep-all; overflow-wrap: anywhere;
+  }
+  a { color: var(--green); }
+  img { max-width: 100%; height: auto; display: block; }
+  .wrap { max-width: 1040px; margin: 0 auto;
+          padding: 0 max(20px, env(safe-area-inset-left)) 0 max(20px, env(safe-area-inset-right)); }
+
+  header .wrap { display: flex; align-items: center; justify-content: space-between;
+                 padding-top: 18px; padding-bottom: 18px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800;
+           font-size: 18px; color: var(--ink); text-decoration: none; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  header nav a { font-size: 14.5px; color: var(--muted); text-decoration: none; }
+
+  /* 첫 화면 */
+  .hero .wrap { display: grid; gap: 40px; align-items: center;
+                grid-template-columns: 1fr; padding-top: 24px; padding-bottom: 56px; }
+  .eyebrow { display: inline-block; font-size: 13.5px; font-weight: 700; color: var(--green);
+             background: var(--green-soft); padding: 4px 12px; border-radius: 99px; margin: 0 0 18px; }
+  h1 { font-size: clamp(30px, 7.6vw, 50px); line-height: 1.25; letter-spacing: -0.03em;
+       margin: 0 0 18px; }
+  h1 .hl { background: linear-gradient(transparent 62%, var(--yellow-soft) 62%); }
+  .lead { font-size: clamp(16px, 4.2vw, 18.5px); color: var(--muted); margin: 0 0 30px; max-width: 32em; }
+  .stores { display: flex; flex-wrap: wrap; gap: 12px; }
+  .stores a {
+    flex: 1 1 200px; max-width: 260px; display: flex; flex-direction: column;
+    padding: 13px 20px; border-radius: 14px; text-decoration: none;
+    background: var(--btn); color: var(--btn-ink); line-height: 1.3;
+  }
+  .stores a small { font-size: 12.5px; opacity: .72; }
+  .stores a b { font-size: 18px; }
+  .stores a:focus-visible, .yt:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+  .fine { font-size: 13.5px; color: var(--muted); margin: 14px 0 0; }
+
+  /* 쇼츠 — 누르기 전에는 유튜브를 부르지 않는다 */
+  .video { justify-self: center; width: min(100%, 300px); }
+  .yt { position: relative; display: block; aspect-ratio: 9 / 16; border-radius: 22px;
+        overflow: hidden; background: #000; border: 1px solid var(--line);
+        box-shadow: 0 18px 40px -18px rgba(0,0,0,.35); }
+  .yt img, .yt iframe { width: 100%; height: 100%; object-fit: cover; border: 0; }
+  .yt .play { position: absolute; left: 50%; top: 50%; width: 72px; height: 72px;
+              transform: translate(-50%, -50%); border-radius: 50%;
+              background: rgba(28,27,24,.78); display: grid; place-items: center; }
+  .yt .play::after { content: ""; margin-left: 6px; border-style: solid;
+                     border-width: 14px 0 14px 22px; border-color: transparent transparent transparent #fff; }
+  .video p { text-align: center; font-size: 13.5px; color: var(--muted); margin: 10px 0 0; }
+
+  section { padding: 56px 0; }
+  section.alt { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  h2 { font-size: clamp(24px, 5.6vw, 32px); letter-spacing: -0.02em; line-height: 1.35; margin: 0 0 10px; }
+  .sub { color: var(--muted); margin: 0 0 36px; }
+
+  /* 세 단계 */
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 36px;
+           grid-template-columns: 1fr; counter-reset: s; }
+  .steps li { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .steps h3 { font-size: 19px; line-height: 30px; margin: 0 0 6px; display: flex; gap: 10px; align-items: flex-start; }
+  .steps h3::before { counter-increment: s; content: counter(s); flex: none;
+                      width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+                      background: var(--btn); color: var(--btn-ink); font-size: 15px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 15.5px; }
+  .shot { width: min(100%, 250px); aspect-ratio: 536 / 1056; border-radius: 18px; overflow: hidden;
+          border: 1px solid var(--line); background: var(--bg); box-shadow: 0 12px 28px -16px rgba(0,0,0,.3); }
+  .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+
+  /* 기능 */
+  .features { display: grid; gap: 14px; grid-template-columns: 1fr; padding: 0; margin: 0; list-style: none; }
+  .features li { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .features b { display: block; font-size: 16.5px; margin-bottom: 2px; }
+  .features span { color: var(--muted); font-size: 15px; }
+
+  /* 설치 */
+  .install { display: grid; gap: 32px; align-items: center; grid-template-columns: 1fr; }
+  .qr { display: none; }
+  .qr figure { margin: 0; text-align: center; }
+  .qr img { width: 180px; height: 180px; border-radius: 14px; border: 1px solid var(--line);
+            background: #f7f4ec; margin: 0 auto; }
+  .qr figcaption { font-size: 13.5px; color: var(--muted); margin-top: 10px; }
+
+  footer { padding: 40px 0 calc(48px + env(safe-area-inset-bottom)); font-size: 13.5px; color: var(--muted); }
+  footer ul { list-style: none; padding: 0; margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  footer ul a { color: var(--ink); font-weight: 600; text-decoration: none; }
+  footer p { margin: 0 0 6px; }
+
+  @media (min-width: 760px) {
+    .hero .wrap { grid-template-columns: 1.25fr 1fr; padding-top: 40px; padding-bottom: 80px; }
+    .steps { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+    .features { grid-template-columns: repeat(2, 1fr); }
+    .install { grid-template-columns: 1fr auto; }
+    .qr { display: block; }
+  }
+  @media (max-width: 759px) {
+    .steps li { grid-template-columns: 1fr 42%; align-items: start; }
+    .steps li .shot { order: 2; }
   }
 </style>
 </head>
 <body>
-<h1>코코세이버</h1>
-<p class="lead">코스트코에서 산 물건이 나중에 싸지면 알려드립니다.
-영수증을 넣어두면 가격 조정으로 돌려받을 차액을 챙길 수 있어요.</p>
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="img/icon.png" alt="" width="36" height="36">코코세이버</a>
+    <nav><a href="manual/">사용 설명서</a></nav>
+  </div>
+</header>
 
-<ul class="links">
-  <li><a href="privacy.html">개인정보 처리방침
-    <span class="sub">2026년 9월 29일 시행</span></a></li>
-  <li><a href="manual/">사용 설명서
-    <span class="sub">화면별 사용법</span></a></li>
-  <li><a href="account-deletion.html">계정 및 데이터 삭제
-    <span class="sub">앱에서 바로 삭제하는 방법과 요청 절차</span></a></li>
-</ul>
+<main>
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">코스트코 가격조정 알림</p>
+      <h1>산 물건이 싸지면,<br><span class="hl">차액을 돌려받으세요</span></h1>
+      <p class="lead">코스트코는 산 물건의 가격이 나중에 내려가면 차액을 돌려줍니다.
+        코코세이버에 영수증을 넣어 두면 싸지는 순간 알려 드려요.</p>
+      <div class="stores">
+        <a href="https://play.google.com/store/apps/details?id=world.rapa.cocosaver&amp;referrer=utm_source%3Dsite%26utm_medium%3Dlanding%26utm_campaign%3Dprice_adjust"><small>안드로이드</small><b>Google Play에서 받기</b></a>
+        <a href="https://apps.apple.com/kr/app/id6815067248"><small>아이폰</small><b>App Store에서 받기</b></a>
+      </div>
+      <p class="fine">무료 · 광고 포함 · 코스트코 한국 회원용</p>
+    </div>
+    <div class="video">
+      <a class="yt" href="https://youtube.com/shorts/zvDPk7ctX8Y" data-id="zvDPk7ctX8Y"
+         aria-label="30초 소개 영상 재생 (유튜브)">
+        <img src="img/shorts.webp" alt="22,990원에 산 티셔츠가 20,990원이 되어 2,000원을 돌려받는 앱 화면" width="540" height="960">
+        <span class="play" aria-hidden="true"></span>
+      </a>
+      <p>누르면 유튜브 영상이 재생돼요</p>
+    </div>
+  </div>
+</div>
 
-<h2>앱 받기</h2>
-<p class="stores">
-  <a href="https://play.google.com/store/apps/details?id=world.rapa.cocosaver&amp;referrer=utm_source%3Dsite%26utm_medium%3Dhub%26utm_campaign%3Dprice_adjust">Google Play</a>
-  <a href="https://apps.apple.com/kr/app/id6815067248">App Store</a>
-</p>
+<section class="alt" id="how">
+  <div class="wrap">
+    <h2>세 단계면 충분해요</h2>
+    <p class="sub">매주 바뀌는 할인을 직접 뒤질 필요가 없어요.</p>
+    <ol class="steps">
+      <li>
+        <div class="shot"><img src="img/step1.webp" alt="영수증 추가 화면 — 코스트코 계정에서 가져오기, 사진 선택" width="536" height="1056" loading="lazy"></div>
+        <div>
+          <h3>영수증을 넣어요</h3>
+          <p>코스트코 계정으로 최근 6개월 매장 영수증을 한 번에 가져오거나, 영수증 사진을 올려요. 비밀번호는 앱이 보지 않아요.</p>
+        </div>
+      </li>
+      <li>
+        <div class="shot"><img src="img/step2.webp" alt="할인 정보 화면 — 내 구매가 22,990원, 현재 할인가 20,990원, 환불 차액 2,000원" width="536" height="1056" loading="lazy"></div>
+        <div>
+          <h3>알림을 기다려요</h3>
+          <p>내가 산 상품이 더 싸지면 얼마를 돌려받을 수 있는지와 함께 푸시 알림이 와요.</p>
+        </div>
+      </li>
+      <li>
+        <div class="shot"><img src="img/step3.webp" alt="환불 방법 안내 화면 — 영수증과 결제 카드 챙기기, 고객 서비스 카운터 방문" width="536" height="1056" loading="lazy"></div>
+        <div>
+          <h3>매장에서 돌려받아요</h3>
+          <p>결제한 카드를 들고 고객 서비스 카운터에서 “가격 조정”을 요청하면 끝. 영수증은 앱에서 바로 찾아 보여 주면 돼요.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</section>
 
-<p class="foot">코코세이버는 코스트코 코리아와 제휴 관계가 없는 독립 앱입니다.
-'COSTCO'는 해당 회사의 상표이며, 환불 가능 여부와 조건은 매장 정책을 따릅니다.<br>
-문의는 앱의 설정 › 고객센터로 보내 주세요.</p>
+<section>
+  <div class="wrap">
+    <h2>그 밖에 이런 것도 해요</h2>
+    <p class="sub">영수증을 넣어 두면 쓸 데가 많아요.</p>
+    <ul class="features">
+      <li><b>영수증 검색</b><span>환불 카운터 앞에서 상품명·상품번호로 그 영수증을 바로 찾아요.</span></li>
+      <li><b>환불 방법 안내</b><span>얼마를, 어떻게 돌려받는지 단계별로 알려 드려요.</span></li>
+      <li><b>지점별 가격 비교</b><span>같은 상품이 어느 지점에서 얼마인지, 가격이 어떻게 변해 왔는지 봐요.</span></li>
+      <li><b>절약 리포트</b><span>환불로 아낀 금액과 월별 지출을 한눈에 봐요.</span></li>
+    </ul>
+    <p class="fine">영수증 문자 인식은 기기 안에서 처리돼요. 상품 가격 정보에는 누가 샀는지가 담기지 않아요.
+      자세한 내용은 <a href="privacy.html">개인정보 처리방침</a>에 있어요.</p>
+  </div>
+</section>
+
+<section class="alt" id="install">
+  <div class="wrap install">
+    <div>
+      <h2>지금 받아 보세요</h2>
+      <p class="sub">놓치고 있던 환불, 코코세이버로 챙기세요.</p>
+      <div class="stores">
+        <a href="https://play.google.com/store/apps/details?id=world.rapa.cocosaver&amp;referrer=utm_source%3Dsite%26utm_medium%3Dlanding%26utm_campaign%3Dprice_adjust"><small>안드로이드</small><b>Google Play에서 받기</b></a>
+        <a href="https://apps.apple.com/kr/app/id6815067248"><small>아이폰</small><b>App Store에서 받기</b></a>
+      </div>
+    </div>
+    <div class="qr">
+      <figure>
+        <img src="download/qr.png" alt="설치 QR 코드" width="180" height="180" loading="lazy">
+        <figcaption>휴대폰 카메라로 찍으면<br>기기에 맞는 스토어로 가요</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul>
+      <li><a href="privacy.html">개인정보 처리방침</a></li>
+      <li><a href="manual/">사용 설명서</a></li>
+      <li><a href="account-deletion.html">계정 및 데이터 삭제</a></li>
+    </ul>
+    <p>코코세이버는 코스트코 코리아와 제휴 관계가 없는 독립 앱입니다.
+      'COSTCO'는 해당 회사의 상표이며, 환불 가능 여부와 조건은 매장 정책을 따릅니다.</p>
+    <p>문의는 앱의 설정 › 고객센터로 보내 주세요.</p>
+  </div>
+</footer>
+
+<script>
+// 쇼츠: 누르기 전에는 유튜브에 아무 요청도 보내지 않는다(추적 쿠키 없음).
+// 스크립트가 꺼져 있으면 링크 그대로 유튜브로 간다.
+document.querySelectorAll('.yt').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    e.preventDefault();
+    var f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + a.dataset.id + '?autoplay=1&playsinline=1&rel=0';
+    f.title = '코코세이버 소개 영상';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.allowFullscreen = true;
+    a.replaceWith(Object.assign(document.createElement('div'), { className: 'yt' }));
+    document.querySelector('.video .yt').appendChild(f);
+    document.querySelector('.video p').remove();
+  });
+});
+</script>
 </body>
 </html>
