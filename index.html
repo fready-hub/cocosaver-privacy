@@ -63,7 +63,25 @@
   .brand { display: flex; align-items: center; gap: 10px; font-weight: 800;
            font-size: 18px; color: var(--ink); text-decoration: none; }
   .brand img { width: 36px; height: 36px; border-radius: 9px; }
-  header nav a { font-size: 14.5px; color: var(--muted); text-decoration: none; }
+  header nav a { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 700;
+                 color: var(--ink); text-decoration: none; padding: 7px 14px; border-radius: 99px;
+                 border: 1.5px solid var(--ink); }
+  header nav a::before { content: "📖"; font-size: 14px; }
+
+  /* 세 단계 아래 — 설명서로 보내는 안내 */
+  .guide { display: flex; align-items: center; gap: 16px; margin-top: 44px; padding: 20px 22px;
+          border-radius: 16px; background: var(--yellow-soft); border: 1px solid var(--line);
+          color: var(--ink); text-decoration: none; }
+  .guide .ic { flex: none; font-size: 28px; line-height: 1; }
+  .guide b { display: block; font-size: 17.5px; }
+  .guide span { display: block; color: var(--muted); font-size: 14.5px; }
+  .guide .go { margin-left: auto; flex: none; font-weight: 700; font-size: 15px; white-space: nowrap;
+              background: var(--btn); color: var(--btn-ink); padding: 10px 16px; border-radius: 12px; }
+  .guide:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+  @media (max-width: 559px) {
+    .guide { flex-wrap: wrap; }
+    .guide .go { margin-left: 0; width: 100%; text-align: center; }
+  }
 
   /* 첫 화면 */
   .hero .wrap { display: grid; gap: 40px; align-items: center;
@@ -208,6 +226,11 @@
         </div>
       </li>
     </ol>
+    <a class="guide" href="manual/">
+      <span class="ic" aria-hidden="true">📖</span>
+      <div><b>화면별 사용법이 궁금하다면</b><span>영수증 넣기부터 환불받기까지, 사용 설명서에 화면 사진과 함께 정리했어요.</span></div>
+      <span class="go">사용 설명서 보기 →</span>
+    </a>
   </div>
 </section>
 
