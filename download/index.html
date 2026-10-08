@@ -22,7 +22,11 @@
   var ua = navigator.userAgent || "";
   var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   var isAndroid = /Android/i.test(ua);
-  var target = isIOS ? "https://apps.apple.com/kr/app/%EC%BD%94%EC%BD%94%EC%84%B8%EC%9D%B4%EB%B2%84/id6815067248" : (isAndroid ? "https://play.google.com/store/apps/details?id=world.rapa.cocosaver" : null);
+  // ?from=yt 같은 짧은 꼬리표 → Play 설치 출처(utm). 값 안의 & 는 인코딩해야 Play 가 자르지 않는다.
+  var REF = { yt: "utm_source=youtube&utm_medium=shorts" };
+  var ref = REF[new URLSearchParams(location.search).get("from")];
+  var play = "https://play.google.com/store/apps/details?id=world.rapa.cocosaver" + (ref ? "&referrer=" + encodeURIComponent(ref) : "");
+  var target = isIOS ? "https://apps.apple.com/kr/app/%EC%BD%94%EC%BD%94%EC%84%B8%EC%9D%B4%EB%B2%84/id6815067248" : (isAndroid ? play : null);
   if (target) {
     document.documentElement.className = "redirecting";
     window.location.replace(target);
