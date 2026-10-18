@@ -23,11 +23,31 @@
   var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   var isAndroid = /Android/i.test(ua);
   // ?from=yt 같은 짧은 꼬리표 → Play 설치 출처(utm). 값 안의 & 는 인코딩해야 Play 가 자르지 않는다.
-  var REF = { yt: "utm_source=youtube&utm_medium=shorts", clip: "utm_source=naver_clip&utm_medium=shortform" };
-  var ref = REF[new URLSearchParams(location.search).get("from")];
+  // 키는 docs/marketing/config.md 「채널 키」(#232). utm_source 는 아침 리포트(crawler/crawler/growth.py DEVICES)가 장치로 묶는 값이다.
+  var REF = {
+    yt: "utm_source=youtube&utm_medium=shorts", clip: "utm_source=naver_clip&utm_medium=shortform",
+    shorts: "utm_source=youtube&utm_medium=shorts", reel: "utm_source=instagram&utm_medium=reel",
+    blog: "utm_source=naver_blog&utm_medium=post", card: "utm_source=instagram&utm_medium=card",
+    threads: "utm_source=threads&utm_medium=post", qr: "utm_source=qr&utm_medium=offline",
+    community: "utm_source=community&utm_medium=post", creator: "utm_source=creator&utm_medium=partner",
+    seo: "utm_source=seo&utm_medium=deal_page", checker: "utm_source=checker&utm_medium=web_tool",
+    share: "utm_source=share&utm_medium=app", invite: "utm_source=invite&utm_medium=app"
+  };
+  var from = new URLSearchParams(location.search).get("from");
+  var ref = REF[from];
+  // 가족 초대 코드(#233) — 앱과 같은 규칙(6자리, 0·O·1·I 제외). 안 맞으면 붙이지 않는다
+  var code = (new URLSearchParams(location.search).get("code") || "").toUpperCase().replace(/[\s-]/g, "");
+  if (from !== "invite" || !/^[A-HJ-NP-Z2-9]{6}$/.test(code)) code = "";
+  if (ref && code) ref += "&utm_content=" + code;
   var play = "https://play.google.com/store/apps/details?id=world.rapa.cocosaver" + (ref ? "&referrer=" + encodeURIComponent(ref) : "");
   var target = isIOS ? "https://apps.apple.com/kr/app/%EC%BD%94%EC%BD%94%EC%84%B8%EC%9D%B4%EB%B2%84/id6815067248" : (isAndroid ? play : null);
-  if (target) {
+  if (isIOS && code) {
+    // App Store 는 referrer 를 못 넘긴다 — 바로 넘기지 않고 코드를 먼저 보여 준다
+    document.documentElement.className = "invite";
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("invite-code").textContent = code;
+    });
+  } else if (target) {
     document.documentElement.className = "redirecting";
     window.location.replace(target);
   }
@@ -56,6 +76,9 @@
   }
   .stores a.alt { background:#fff; color:var(--ink); border:1px solid var(--line); }
   .stores a:focus-visible { outline:3px solid #e8b10a; outline-offset:3px; }
+  #invite { display:none; margin-top:24px; padding:16px; border-radius:14px; background:#fff; border:1px solid var(--line); color:var(--ink); }
+  .invite #invite { display:block; }
+  #invite-code { font-size:28px; font-weight:800; letter-spacing:0.12em; margin-top:6px; color:var(--ink); }
   .note { margin-top:28px; font-size:12px; color:#9a958a; }
 </style>
 </head>
@@ -65,6 +88,7 @@
   <h1>코코세이버</h1>
   <p>코스트코에서 산 물건이 싸지면 알려드려요.</p>
   <p class="status">스토어로 이동하고 있어요. 안 넘어가면 아래 버튼을 눌러 주세요.</p>
+  <div id="invite"><p>설치한 뒤 앱의 설정 › 가족 초대에서 이 코드를 넣어 주세요.</p><p id="invite-code"></p></div>
   <nav class="stores" aria-label="스토어 선택">
     <a href="https://apps.apple.com/kr/app/%EC%BD%94%EC%BD%94%EC%84%B8%EC%9D%B4%EB%B2%84/id6815067248">App Store에서 받기</a>
     <a class="alt" href="https://play.google.com/store/apps/details?id=world.rapa.cocosaver">Google Play에서 받기</a>
