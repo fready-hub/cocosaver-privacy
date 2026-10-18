@@ -53,6 +53,11 @@ input { width:100%; font:inherit; padding:12px 14px; border-radius:12px; border:
 .warn { background:var(--yellow-soft); border-color:transparent; }
 .btn { display:inline-block; background:var(--btn); color:var(--btn-ink); text-decoration:none; font-weight:800;
   padding:14px 22px; border-radius:14px; margin:8px 10px 4px 0; }
+.share { font:inherit; font-weight:800; color:var(--ink); background:var(--card); border:1.5px solid var(--line);
+  border-radius:14px; padding:12px 18px; margin:10px 10px 0 0; cursor:pointer; }
+.share-note { font-size:13.5px; color:var(--muted); margin:6px 0 0; }
+.share-text { width:100%; font:inherit; font-size:14px; margin-top:8px; padding:10px; border-radius:12px;
+  border:1.5px solid var(--line); background:var(--card); color:var(--ink); }
 ol, ul { padding-left:22px; margin:8px 0; }
 footer { color:var(--muted); font-size:13px; padding:24px 0 40px; }
 footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16px; }
@@ -91,7 +96,7 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
   <section class="card good">
     <h2>매번 찾아보지 않아도 돼요</h2>
     <p>코코세이버에 영수증을 넣어 두면 산 물건이 할인할 때 아끼는 금액과 함께 알려 드려요.</p>
-    <a class="btn" href="/download/?from=checker">코코세이버 받기 (무료)</a>
+    <a class="btn" id="install" href="/download/?from=checker">코코세이버 받기 (무료)</a>
   </section>
   <p class="small">코코세이버가 말하는 차액 환불은 할인가로 다시 사고 예전 영수증으로 환불해 그 차이만큼 돌려받는 방법이에요. 코스트코의 공식 제도는 아니에요 — 반품 보증을 이용하는 방법이라 처리는 매장 판단이에요.</p>
 </main>
@@ -125,8 +130,10 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
   fetch('../deals/data.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (data) {
     deals = data.deals || [];
     if (data.asOf) $('asof').textContent = md(data.asOf) + ' 확인한 온라인몰 할인 ' + deals.length.toLocaleString('ko-KR') + '개에서 찾아요.';
-    var pre = new URLSearchParams(location.search).get('q');
+    var params = new URLSearchParams(location.search);
+    var pre = params.get('q');
     if (pre) { $('q').value = pre; search(); }
+    if (params.get('from') === 'share') $('install').href = '/download/?from=share';
   }).catch(function () {
     $('none').hidden = false;
     $('none').textContent = '할인 목록을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.';
@@ -214,6 +221,38 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
     var more = el('a', '이 상품 가격 이력 보기');
     more.href = '/deals/' + d.id + '/';
     box.appendChild(more);
+    box.appendChild(shareBlock(d, save));
+  }
+
+  // 공유 — 같은 걸 산 가족·지인에게 「n원 돌려받을 수 있어요」 를 보낸다(GOALS 5-1 ②).
+  // 받는 사람은 그 상품이 미리 골라진 이 확인기로 오고(?q=), 설치 출처는 share 로 잡힌다.
+  function shareText(d, save) {
+    var until = d.end ? ' ' + md(d.end) + '까지예요.' : '';
+    return '코스트코에서 ' + d.name + ' 사셨다면, 지금 ' + won(save) + ' 돌려받을 수 있어요. ' +
+      '할인가로 다시 사고 예전 영수증으로 환불하면 돼요(매장 판단).' + until;
+  }
+  function shareUrl(d) { return 'https://cocosaver.rapa.world/check/?q=' + d.id + '&from=share'; }
+  function shareBlock(d, save) {
+    var wrap = el('div'), btn = el('button', '같은 걸 산 사람에게 알리기', 'share'), note = el('p', '', 'share-note');
+    btn.type = 'button';
+    btn.addEventListener('click', function () {
+      var text = shareText(d, save), url = shareUrl(d);
+      if (navigator.share) {
+        navigator.share({ text: text, url: url }).catch(function () {});
+        return;
+      }
+      var full = text + '\n' + url;
+      var done = function () { note.textContent = '글을 복사했어요. 카톡이나 문자에 붙여 넣으세요.'; };
+      var fail = function () {
+        note.textContent = '아래 글을 길게 눌러 복사해 보내세요.';
+        var ta = el('textarea', full, 'share-text'); ta.readOnly = true; ta.rows = 4;
+        wrap.appendChild(ta); ta.select();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(full).then(done, fail);
+      else fail();
+    });
+    wrap.appendChild(btn); wrap.appendChild(note);
+    return wrap;
   }
 
   var timer;
