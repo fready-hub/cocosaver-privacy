@@ -225,13 +225,14 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
   }
 
   // 공유 — 같은 걸 산 가족·지인에게 「n원 돌려받을 수 있어요」 를 보낸다(GOALS 5-1 ②).
-  // 받는 사람은 그 상품이 미리 골라진 이 확인기로 오고(?q=), 설치 출처는 share 로 잡힌다.
+  // 받는 사람은 그 상품 페이지(/deals/<번호>/?from=share)로 오고, 설치 출처는 share 로 잡힌다.
   function shareText(d, save) {
     var until = d.end ? ' ' + md(d.end) + '까지예요.' : '';
     return '코스트코에서 ' + d.name + ' 사셨다면, 지금 ' + won(save) + ' 돌려받을 수 있어요. ' +
       '할인가로 다시 사고 예전 영수증으로 환불하면 돼요(매장 판단).' + until;
   }
-  function shareUrl(d) { return 'https://cocosaver.rapa.world/check/?q=' + d.id + '&from=share'; }
+  // 상품 페이지로 보낸다 — 카톡·문자 미리보기에 그 상품의 이름·돌려받을 금액이 뜬다(확인기는 OG 가 한 가지다). 그 페이지에도 같은 공유 버튼이 있다.
+  function shareUrl(d) { return 'https://cocosaver.rapa.world/deals/' + d.id + '/?from=share'; }
   function shareBlock(d, save) {
     var wrap = el('div'), btn = el('button', '같은 걸 산 사람에게 알리기', 'share'), note = el('p', '', 'share-note');
     btn.type = 'button';
