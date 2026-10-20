@@ -90,13 +90,37 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
 <section class="card cta">
   <h2>싸지면 알려 드려요</h2>
   <p>영수증을 넣어 두면 산 물건이 할인할 때 아끼는 금액과 함께 알려 드려요. 이 상품처럼요.</p>
-  <a class="btn" href="/download/?from=seo">코코세이버 받기 (무료)</a>
+  <a class="btn" id="install" href="/download/?from=seo">코코세이버 받기 (무료)</a>
   <a href="/check/">다른 상품 확인하기</a>
 </section>
+<section class="card">
+  <h2>같은 걸 산 사람이 있다면</h2>
+  <p class="small">이 글과 링크를 카톡이나 문자로 보낼 수 있어요. 받는 사람은 이 페이지로 와요.</p>
+  <button type="button" class="btn" id="share">같은 걸 산 사람에게 알리기</button>
+  <p class="small" id="share-note"></p>
+</section>
+<script>
+(function(){
+  var text = "코스트코에서 팜스빌 악마다이어트 슬림컷 젤리 18g x 50포 사셨다면, 지금 5,000원 돌려받을 수 있어요. 할인가로 다시 사고 예전 영수증으로 환불하면 돼요(매장 판단). 10월 25일까지예요.", url = "https://cocosaver.rapa.world/deals/691863/?from=share";
+  var btn = document.getElementById('share'), note = document.getElementById('share-note');
+  btn.addEventListener('click', function(){
+    if (navigator.share) { navigator.share({ text: text, url: url }).catch(function(){}); return; }
+    var full = text + '\n' + url;
+    var done = function(){ note.textContent = '글을 복사했어요. 카톡이나 문자에 붙여 넣으세요.'; };
+    var fail = function(){ note.textContent = '아래 글을 길게 눌러 복사해 보내세요.'; var ta = document.createElement('textarea'); ta.value = full; ta.readOnly = true; ta.rows = 4; ta.style.width = '100%'; note.after(ta); ta.select(); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(full).then(done, fail); else fail();
+  });
+})();
+</script>
 <section class="card"><h2>가격 이력</h2>
 <p class="small">코스트코 온라인몰에서 코코세이버가 확인한 날의 가격이에요.</p>
 <div class="scroll"><table><thead><tr><th>확인한 날</th><th class="n">판매가</th><th class="n">정가</th></tr></thead>
 <tbody><tr><td>2026-10-12</td><td class="n">27,990원</td><td class="n">32,990원</td></tr><tr><td>2026-10-15</td><td class="n">27,990원</td><td class="n">32,990원</td></tr><tr><td>2026-10-19</td><td class="n">27,990원</td><td class="n">32,990원</td></tr></tbody></table></div></section>
+<script>
+(function(){
+  if (new URLSearchParams(location.search).get('from') === 'share') document.getElementById('install').href = '/download/?from=share';
+})();
+</script>
 </main>
 <footer><div class="wrap">
   <ul>

@@ -80,13 +80,19 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
 <section class="card cta">
   <h2>싸지면 알려 드려요</h2>
   <p>영수증을 넣어 두면 산 물건이 다시 할인할 때 아끼는 금액과 함께 알려 드려요.</p>
-  <a class="btn" href="/download/?from=seo">코코세이버 받기 (무료)</a>
+  <a class="btn" id="install" href="/download/?from=seo">코코세이버 받기 (무료)</a>
   <a href="/check/">다른 상품 확인하기</a>
 </section>
+
 <section class="card"><h2>가격 이력</h2>
 <p class="small">코스트코 온라인몰에서 코코세이버가 확인한 날의 가격이에요.</p>
 <div class="scroll"><table><thead><tr><th>확인한 날</th><th class="n">판매가</th><th class="n">정가</th></tr></thead>
 <tbody><tr><td>2026-10-05</td><td class="n">162,900원</td><td class="n">172,900원</td></tr><tr><td>2026-10-08</td><td class="n">162,900원</td><td class="n">172,900원</td></tr><tr><td>2026-10-12</td><td class="n">162,900원</td><td class="n">172,900원</td></tr><tr><td>2026-10-15</td><td class="n">162,900원</td><td class="n">172,900원</td></tr></tbody></table></div></section>
+<script>
+(function(){
+  if (new URLSearchParams(location.search).get('from') === 'share') document.getElementById('install').href = '/download/?from=share';
+})();
+</script>
 </main>
 <footer><div class="wrap">
   <ul>
