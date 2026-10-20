@@ -51,7 +51,8 @@ ol, ul { padding-left:22px; margin:8px 0; }
   padding:14px 22px; border-radius:14px; margin:6px 10px 6px 0; }
 table { width:100%; border-collapse:collapse; font-size:14.5px; }
 th, td { text-align:left; padding:6px 4px; border-bottom:1px solid var(--line); }
-td.n, th.n { text-align:right; font-variant-numeric:tabular-nums; }
+td.n, th.n { text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
+td { word-break:keep-all; }
 .list td a { font-weight:700; }
 .filter { width:100%; font:inherit; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line);
   background:var(--card); color:var(--ink); }
