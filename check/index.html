@@ -75,6 +75,7 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
 <main class="wrap">
   <h1>돌려받을 돈 찾기</h1>
   <p>코스트코에서 산 물건, 지금 싸졌나요? 상품번호나 이름을 넣으면 돌려받을 돈을 알려 드려요. 싸졌다면 할인가로 다시 사고 예전 영수증으로 환불해서 그 차이만큼 돌려받을 수 있어요.</p>
+  <p id="members" class="small" hidden></p>
 
   <section class="card">
     <label for="q">상품번호나 이름</label>
@@ -132,6 +133,13 @@ footer ul { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:6px 16
 
   fetch('../deals/data.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).then(function (data) {
     deals = data.deals || [];
+    if (data.member && data.member.amount > 0) {
+      // 회원 5명 이상일 때만 생성기가 싣는다(천 원 반올림 합계·상품 수 — 회원별·상품별 금액 없음, DECISIONS 100)
+      $('members').textContent = '코코세이버 회원 영수증 기준, 회원들이 산 물건 중 지금 돌려받을 수 있는 금액은 합계 약 ' +
+        won(data.member.amount) + '(' + data.member.products.toLocaleString('ko-KR') + '개 상품)이에요' +
+        (data.asOf ? ' — ' + md(data.asOf) + ' 확인' : '') + '. 내가 산 것도 있는지 아래에서 찾아보세요.';
+      $('members').hidden = false;
+    }
     if (data.asOf) $('asof').textContent = md(data.asOf) + ' 확인한 온라인몰 할인 ' + deals.length.toLocaleString('ko-KR') + '개에서 찾아요.';
     var params = new URLSearchParams(location.search);
     var pre = params.get('q');
